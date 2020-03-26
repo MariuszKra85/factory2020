@@ -1,24 +1,22 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import Button from '../componets/atom/Button';
+import { theme } from 'theme/mainTheme';
+import Button from '../components/atom/Button/Button';
 import GlobalStyle from '../theme/GlobalStyle';
+import Heading from '../components/atom/Heading/Heading';
 
-const theme = {
-  primary: 'black',
-};
-
-function App() {
+function Root() {
   return (
     <div>
+      <GlobalStyle />
       <ThemeProvider theme={theme}>
         <>
-          <GlobalStyle />
-          <p>hello</p>
-          <Button>hello button</Button>
+          <Button primary>hello button</Button>
+          <Heading>hello</Heading>
         </>
       </ThemeProvider>
     </div>
   );
 }
 
-export default App;
+export default Root;
