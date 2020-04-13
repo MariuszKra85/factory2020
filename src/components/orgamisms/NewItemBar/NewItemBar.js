@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Heading from 'components/atom/Heading/Heading';
 import Button from 'components/atom/Button/Button';
 import Input from 'components/atom/Input/Input';
+import { connect } from 'react-redux';
+import { AddItem as AddItemAction } from '../../../actions';
 
 const StyledWrapper = styled.div`
   width: 300px;
@@ -19,7 +21,7 @@ const StyledWrapper = styled.div`
   transition: transform 0.6s ease-in-out;
 `;
 
-const NewItemBar = ({ cardType, isVisible }) => (
+const NewItemBar = ({ cardType, isVisible, addItem }) => (
   <StyledWrapper color={cardType} isVisible={isVisible}>
     <Heading>Add new Item to Store</Heading>
     <Input placeholder="text" />
@@ -28,12 +30,23 @@ const NewItemBar = ({ cardType, isVisible }) => (
     <Input placeholder="text" />
     <Input placeholder="text" />
 
-    <Button cardType={cardType}>Add</Button>
+    <Button
+      onClick={() => addItem(cardType, { cardType, name: 'hello', content: 'cos tam cos tan' })}
+      cardType={cardType}
+    >
+      Add
+    </Button>
   </StyledWrapper>
 );
 
 NewItemBar.propTypes = {
   cardType: PropTypes.string.isRequired,
-  isVisible: PropTypes.string.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  addItem: PropTypes.func.isRequired,
 };
-export default NewItemBar;
+
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (itemType, itemContent) => dispatch(AddItemAction(itemType, itemContent)),
+});
+
+export default connect(null, mapDispatchToProps)(NewItemBar);
