@@ -14,7 +14,7 @@ import LogoutIcon from 'assets/icons/logout.svg';
 const StyledWrapper = styled.nav`
   width: 100px;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: ${({ theme, cardType }) => theme[cardType]};
@@ -44,7 +44,7 @@ const SideBar = ({ cardType }) => (
       <ButtonIcon as={NavLink} to="/scale" icon={ScaleIcon} activeclass="active" />
       <ButtonIcon as={NavLink} to="/chill" icon={ChillIcon} activeclass="active" />
     </StyledInnerWrapper>
-    <StyledLogoutButton icon={LogoutIcon} />
+    <StyledLogoutButton icon={LogoutIcon} color={cardType} />
   </StyledWrapper>
 );
 SideBar.propTypes = {

@@ -1,52 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Card from 'components/molecule/Card/Card';
 import UserTamplate from '../Templates/UserTemplate';
 
-const process = [
-  {
-    cardType: 'process',
-    id: '1',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '32123',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-  {
-    cardType: 'process',
-    id: '2',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '32123',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-  {
-    cardType: 'process',
-    id: '3',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '3213243',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-  {
-    cardType: 'process',
-    id: '4',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '3214534',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-];
-
-const Process = () => (
-  <UserTamplate cardType="store">
+const Process = ({ process }) => (
+  <UserTamplate cardType="process">
     {process.map((item) => (
       <Card
         cardType={item.cardType}
@@ -57,9 +16,18 @@ const Process = () => (
         cookDate={item.cookDate}
         time={item.time}
         weight={item.weight}
+        key={item.id}
       />
     ))}
   </UserTamplate>
 );
 
-export default Process;
+const mapStoreToProps = ({ process }) => {
+  return { process };
+};
+
+Process.propTypes = {
+  process: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+export default connect(mapStoreToProps)(Process);

@@ -3,10 +3,22 @@
   "env": {
     "jest": true
   },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
   "globals": {
     "document": true
   },
   "rules": {
+    "react/state-in-constructor": 0,
+    "react/destructuring-assignment": 0,
     "import/prefer-default-export": 0,
     "react/jsx-filename-extension": [
       0,

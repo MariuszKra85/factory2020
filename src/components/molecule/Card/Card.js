@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Heading from 'components/atom/Heading/Heading';
 import Button from 'components/atom/Button/Button';
 import Paragraph from 'components/atom/Paragraph/Paragraph';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { removeItem as removeItemAction } from 'actions';
 
 const Wrapper = styled.div`
   min-width: 220px;
-  min-height: 300px;
+  min-height: 150px;
   margin: 7px;
   padding: 0;
   border-radius: 20px;
@@ -33,34 +36,49 @@ const StyledParagraph = styled(Paragraph)`
   font-weight: ${({ theme }) => theme.bold};
 `;
 
-const Card = ({ cardType, id, palletNumber, name, cookDate, time, rmCode, weight }) => (
-  <Wrapper>
-    <InnerWrapper cardType={cardType}>
-      <StyledHedding cardType={cardType}>{name}</StyledHedding>
-      <StyledParagraph>Pallet: {palletNumber}</StyledParagraph>
-      <StyledParagraph>ID: {id}</StyledParagraph>
-    </InnerWrapper>
-    <Paragraph>{rmCode}</Paragraph>
-    <Paragraph>{cookDate}</Paragraph>
-    <Paragraph>{weight}</Paragraph>
-    <Paragraph>{time}</Paragraph>
-    <Button cardType={cardType}>Edit</Button>
-    <Button secondary>close</Button>
-  </Wrapper>
-);
+class Card extends Component {
+  state = {
+    redirect: false,
+  };
+
+  handleCardClick = () => this.setState({ redirect: true });
+
+  render() {
+    const { id, cardType, palletNumber, name, rmCode, removeItem } = this.props;
+    if (this.state.redirect) {
+      return <Redirect to={`/${cardType}/${id}`} />;
+    }
+
+    return (
+      <Wrapper>
+        <InnerWrapper cardType={cardType} onClick={this.handleCardClick}>
+          <StyledHedding cardType={cardType}>{name}</StyledHedding>
+          <StyledParagraph>Pallet: {palletNumber}</StyledParagraph>
+        </InnerWrapper>
+        <Paragraph>{rmCode}</Paragraph>
+        <Button cardType={cardType}>Edit</Button>
+        <Button secondary onClick={() => removeItem(cardType, id)}>
+          Remove
+        </Button>
+      </Wrapper>
+    );
+  }
+}
 
 Card.propTypes = {
   cardType: PropTypes.oneOf(['store', 'process', 'scale', 'chill']).isRequired,
   name: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  palletNumber: PropTypes.number.isRequired,
-  cookDate: PropTypes.string.isRequired,
-  time: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  palletNumber: PropTypes.string.isRequired,
   rmCode: PropTypes.string.isRequired,
-  weight: PropTypes.number.isRequired,
+  removeItem: PropTypes.func.isRequired,
 };
 Card.defaultPorp = {
   cardType: 'store',
 };
 
-export default Card;
+const MapDispatchToProps = (dispath) => ({
+  removeItem: (itemType, id) => dispath(removeItemAction(itemType, id)),
+});
+
+export default connect(null, MapDispatchToProps)(Card);

@@ -1,51 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import UserTamplate from 'Templates/UserTemplate';
 import Card from 'components/molecule/Card/Card';
 
-const store = [
-  {
-    cardType: 'store',
-    id: '1',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '32123',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-  {
-    cardType: 'store',
-    id: '2',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '32123',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-  {
-    cardType: 'store',
-    id: '3',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '3213243',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-  {
-    cardType: 'store',
-    id: '4',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '3214534',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-];
-
-const Store = () => (
+const Store = ({ store }) => (
   <UserTamplate cardType="store">
     {store.map((item) => (
       <Card
@@ -57,9 +16,18 @@ const Store = () => (
         cookDate={item.cookDate}
         time={item.time}
         weight={item.weight}
+        key={item.id}
       />
     ))}
   </UserTamplate>
 );
 
-export default Store;
+const mapStoreToProps = ({ store }) => {
+  return { store };
+};
+
+Store.propTypes = {
+  store: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+export default connect(mapStoreToProps)(Store);

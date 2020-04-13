@@ -1,52 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Card from 'components/molecule/Card/Card';
 import UserTamplate from '../Templates/UserTemplate';
 
-const scale = [
-  {
-    cardType: 'scale',
-    id: '1',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '32123',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-  {
-    cardType: 'scale',
-    id: '2',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '32123',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-  {
-    cardType: 'scale',
-    id: '3',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '3213243',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-  {
-    cardType: 'scale',
-    id: '4',
-    name: 'szynka',
-    rmCode: 'rm102',
-    palletNumber: '3214534',
-    cookDate: '21.3.2020',
-    time: '12.20',
-    weight: '200',
-  },
-];
-
-const Scale = () => (
-  <UserTamplate cardType="store">
+const Scale = ({ scale }) => (
+  <UserTamplate cardType="scale">
     {scale.map((item) => (
       <Card
         cardType={item.cardType}
@@ -57,9 +16,18 @@ const Scale = () => (
         cookDate={item.cookDate}
         time={item.time}
         weight={item.weight}
+        key={item.id}
       />
     ))}
   </UserTamplate>
 );
 
-export default Scale;
+const mapStoreToProps = ({ scale }) => {
+  return { scale };
+};
+
+Scale.propTypes = {
+  scale: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
+export default connect(mapStoreToProps)(Scale);

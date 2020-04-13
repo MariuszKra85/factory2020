@@ -4,6 +4,7 @@ import magnifierIcon from 'assets/icons/magnifier.svg';
 const Input = styled.input`
   width: 150px;
   padding: 10px 15px;
+  margin: 10px;
   font-size: ${({ theme }) => theme.fontSize.s};
   font-weight: ${({ theme }) => theme.light};
   background-color: ${({ theme }) => theme.grey100};
